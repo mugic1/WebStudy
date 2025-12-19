@@ -10,7 +10,7 @@ A modern web app for tracking educational YouTube video progress.
 - 🔄 Auto-save and PWA support
 
 ## Live Demo
-[Add your deployment link here]
+[https://mugic1.github.io/WebStudy/]
 
 ## Setup
 1. Clone repository

@@ -1,1 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduTube - Learning Tracker</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="manifest" href="manifest.json">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-left">
+                <button class="menu-btn" id="menuBtn">
+                    <i class="material-icons">menu</i>
+                </button>
+                <h1 class="logo">EduTube<span class="logo-sub">Tracker</span></h1>
+            </div>
+            <div class="nav-right">
+                <button class="icon-btn" id="themeToggle" title="Toggle theme">
+                    <i class="material-icons">dark_mode</i>
+                </button>
+                <button class="icon-btn" id="exportBtn" title="Export data">
+                    <i class="material-icons">download</i>
+                </button>
+                <button class="icon-btn" id="importBtn" title="Import data">
+                    <i class="material-icons">upload</i>
+                </button>
+            </div>
+        </div>
+    </nav>
 
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h3>Subjects</h3>
+            <button class="close-sidebar" id="closeSidebar">
+                <i class="material-icons">close</i>
+            </button>
+        </div>
+        <div class="sidebar-content">
+            <div class="subject-item active" data-subject="home">
+                <i class="material-icons">home</i>
+                <span>Dashboard</span>
+            </div>
+            <div class="subject-item" data-subject="physics">
+                <i class="material-icons">science</i>
+                <span>Physics</span>
+                <span class="video-count" id="physics-count">0</span>
+            </div>
+            <div class="subject-item" data-subject="chemistry">
+                <i class="material-icons">biotech</i>
+                <span>Chemistry</span>
+                <span class="video-count" id="chemistry-count">0</span>
+            </div>
+            <div class="subject-item" data-subject="biology">
+                <i class="material-icons">eco</i>
+                <span>Biology</span>
+                <span class="video-count" id="biology-count">0</span>
+            </div>
+            <div class="sidebar-footer">
+                <div class="storage-info">
+                    <i class="material-icons">storage</i>
+                    <span>Local Storage</span>
+                    <div class="storage-bar">
+                        <div class="storage-fill" id="storageFill"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content" id="mainContent">
+        <!-- Home Page -->
+        <div class="page active" id="home-page">
+            <div class="page-header">
+                <h2>Learning Dashboard</h2>
+                <button class="fab" id="addVideoFab">
+                    <i class="material-icons">add</i>
+                </button>
+            </div>
+            
+            <!-- Continue Watching Section -->
+            <section class="continue-watching-section">
+                <h3><i class="material-icons">play_circle</i> Continue Watching</h3>
+                <div class="continue-grid" id="continueWatching"></div>
+            </section>
+
+            <!-- Subjects Overview -->
+            <section class="subjects-overview">
+                <h3><i class="material-icons">dashboard</i> Subjects Overview</h3>
+                <div class="overview-grid">
+                    <div class="overview-card physics" data-subject="physics">
+                        <div class="overview-icon">
+                            <i class="material-icons">science</i>
+                        </div>
+                        <div class="overview-info">
+                            <h4>Physics</h4>
+                            <p class="overview-count">Videos to watch: <span id="home-physics-count">0</span></p>
+                            <p class="overview-progress">Progress: <span id="physics-progress">0%</span></p>
+                        </div>
+                        <i class="material-icons arrow">chevron_right</i>
+                    </div>
+                    
+                    <div class="overview-card chemistry" data-subject="chemistry">
+                        <div class="overview-icon">
+                            <i class="material-icons">biotech</i>
+                        </div>
+                        <div class="overview-info">
+                            <h4>Chemistry</h4>
+                            <p class="overview-count">Videos to watch: <span id="home-chemistry-count">0</span></p>
+                            <p class="overview-progress">Progress: <span id="chemistry-progress">0%</span></p>
+                        </div>
+                        <i class="material-icons arrow">chevron_right</i>
+                    </div>
+                    
+                    <div class="overview-card biology" data-subject="biology">
+                        <div class="overview-icon">
+                            <i class="material-icons">eco</i>
+                        </div>
+                        <div class="overview-info">
+                            <h4>Biology</h4>
+                            <p class="overview-count">Videos to watch: <span id="home-biology-count">0</span></p>
+                            <p class="overview-progress">Progress: <span id="biology-progress">0%</span></p>
+                        </div>
+                        <i class="material-icons arrow">chevron_right</i>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Recent Activity -->
+            <section class="recent-activity">
+                <h3><i class="material-icons">history</i> Recent Activity</h3>
+                <div class="activity-list" id="recentActivity"></div>
+            </section>
+        </div>
+
+        <!-- Subject Pages -->
+        <div class="page" id="physics-page">
+            <div class="page-header">
+                <h2><i class="material-icons">science</i> Physics Videos</h2>
+                <div class="page-stats">
+                    <span class="stat-badge">
+                        <i class="material-icons">play_circle</i>
+                        <span id="physics-videos-count">0 videos to watch</span>
+                    </span>
+                </div>
+            </div>
+            <div class="videos-container" id="physics-videos"></div>
+        </div>
+
+        <div class="page" id="chemistry-page">
+            <div class="page-header">
+                <h2><i class="material-icons">biotech</i> Chemistry Videos</h2>
+                <div class="page-stats">
+                    <span class="stat-badge">
+                        <i class="material-icons">play_circle</i>
+                        <span id="chemistry-videos-count">0 videos to watch</span>
+                    </span>
+                </div>
+            </div>
+            <div class="videos-container" id="chemistry-videos"></div>
+        </div>
+
+        <div class="page" id="biology-page">
+            <div class="page-header">
+                <h2><i class="material-icons">eco</i> Biology Videos</h2>
+                <div class="page-stats">
+                    <span class="stat-badge">
+                        <i class="material-icons">play_circle</i>
+                        <span id="biology-videos-count">0 videos to watch</span>
+                    </span>
+                </div>
+            </div>
+            <div class="videos-container" id="biology-videos"></div>
+        </div>
+    </main>
+
+    <!-- Add Video Modal -->
+    <div class="modal" id="addVideoModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="material-icons">add_circle</i> Add Videos</h3>
+                <button class="close-modal" id="closeModal">
+                    <i class="material-icons">close</i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="videoLinks">
+                        <i class="material-icons">link</i> YouTube Links (one per line or comma separated)
+                    </label>
+                    <textarea 
+                        id="videoLinks" 
+                        placeholder="Paste YouTube links here...
+Example:
+https://www.youtube.com/watch?v=dQw4w9WgXcQ
+https://youtu.be/VIDEO_ID
+You can paste multiple links (up to 50 at once)" 
+                        rows="6"></textarea>
+                    <div class="input-info">
+                        <i class="material-icons">info</i>
+                        <span>Supports: youtube.com/watch?v=, youtu.be/, youtube.com/shorts/</span>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="subjectSelect">
+                        <i class="material-icons">category</i> Add to Subject
+                    </label>
+                    <div class="subject-selector">
+                        <div class="subject-option" data-subject="physics">
+                            <i class="material-icons">science</i>
+                            <span>Physics</span>
+                        </div>
+                        <div class="subject-option" data-subject="chemistry">
+                            <i class="material-icons">biotech</i>
+                            <span>Chemistry</span>
+                        </div>
+                        <div class="subject-option" data-subject="biology">
+                            <i class="material-icons">eco</i>
+                            <span>Biology</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="batch-controls">
+                        <button class="btn-secondary" id="clearLinks">
+                            <i class="material-icons">clear_all</i> Clear All
+                        </button>
+                        <button class="btn-secondary" id="analyzeLinks">
+                            <i class="material-icons">analytics</i> Analyze Links
+                        </button>
+                    </div>
+                </div>
+
+                <div class="link-analysis" id="linkAnalysis">
+                    <!-- Analysis results will appear here -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" id="cancelAdd">Cancel</button>
+                <button class="btn-primary" id="addVideosBtn">
+                    <i class="material-icons">add_to_photos</i> Add Videos
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Video Player Modal -->
+    <div class="modal video-modal" id="videoModal">
+        <div class="modal-content video-modal-content">
+            <div class="modal-header">
+                <h3 id="videoModalTitle">Video Player</h3>
+                <button class="close-modal" id="closeVideoModal">
+                    <i class="material-icons">close</i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="video-player-container" id="videoPlayer"></div>
+                <div class="video-info" id="videoInfo"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Import Modal -->
+    <div class="modal" id="importModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="material-icons">upload</i> Import Data</h3>
+                <button class="close-modal" id="closeImportModal">
+                    <i class="material-icons">close</i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="importFile">
+                        <i class="material-icons">attach_file</i> Select backup file
+                    </label>
+                    <input type="file" id="importFile" accept=".json,.txt">
+                    <div class="backup-info">
+                        <i class="material-icons">info</i>
+                        <span>Select a previously exported backup file to restore your data</span>
+                    </div>
+                </div>
+                <div class="backup-preview" id="backupPreview"></div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" id="cancelImport">Cancel</button>
+                <button class="btn-primary" id="confirmImport" disabled>
+                    <i class="material-icons">restore</i> Restore Backup
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <p id="loadingText">Processing videos...</p>
+            <div class="loading-progress" id="loadingProgress">
+                <div class="loading-progress-bar"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- YouTube API -->
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <script src="script.js"></script>
+</body>
+  </html>
